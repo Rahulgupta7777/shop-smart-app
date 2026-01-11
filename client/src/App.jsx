@@ -1,14 +1,80 @@
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { CartProvider } from './contexts/CartContext';
 import Navbar from './components/Navbar';
-import ProductList from './components/ProductList';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import ShopPage from './pages/ShopPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminImages from './pages/admin/AdminImages';
+
+function PublicLayout() {
+  return (
+    <>
+      <Navbar />
+      <main className="main-content">
+        <Outlet />
+      </main>
+      <Footer />
+    </>
+  );
+}
+
+function NotFound() {
+  return (
+    <div className="cart-empty">
+      <div className="cart-empty-kanji">迷</div>
+      <h1 className="page-title">Page not found</h1>
+      <p className="page-subtitle">This page drifted off into another dimension.</p>
+      <a href="/" className="btn btn-primary">Back home</a>
+    </div>
+  );
+}
 
 function App() {
   return (
-    <div className="app">
-      <Navbar />
-      <main className="main-content">
-        <ProductList />
-      </main>
-    </div>
+    <BrowserRouter>
+      <CartProvider>
+        <div className="app">
+          <Routes>
+            <Route element={<PublicLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/shop" element={<ShopPage />} />
+              <Route path="/shop/:category" element={<ShopPage />} />
+              <Route path="/product/:id" element={<ProductDetailPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="images" element={<AdminImages />} />
+            </Route>
+          </Routes>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: '#FBF8F3',
+                color: '#1A1614',
+                borderRadius: '12px',
+                boxShadow: '6px 6px 12px #D4CFC5, -6px -6px 12px #FFFFFF',
+                fontFamily: 'DM Sans, sans-serif',
+                fontSize: '0.9rem',
+                fontWeight: 500,
+              },
+            }}
+          />
+        </div>
+      </CartProvider>
+    </BrowserRouter>
   );
 }
 
