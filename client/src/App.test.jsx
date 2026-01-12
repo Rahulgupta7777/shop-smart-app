@@ -9,21 +9,27 @@ beforeEach(() => {
       json: () => Promise.resolve([]),
     })
   );
+  localStorage.clear();
 });
 
 describe('App', () => {
-  it('renders ShopSmart title in navbar', () => {
+  it('renders Moji brand in navbar', () => {
     render(<App />);
-    expect(screen.getByText('ShopSmart')).toBeInTheDocument();
+    expect(screen.getAllByText('Moji').length).toBeGreaterThan(0);
   });
 
-  it('renders the Add Product button', () => {
+  it('renders hero title on home page', () => {
     render(<App />);
-    expect(screen.getByText('+ Add Product')).toBeInTheDocument();
+    expect(screen.getByText(/Wear your/i)).toBeInTheDocument();
   });
 
-  it('renders the search input', () => {
+  it('renders the Shop nav link', () => {
     render(<App />);
-    expect(screen.getByPlaceholderText('Search products...')).toBeInTheDocument();
+    expect(screen.getAllByText('Shop').length).toBeGreaterThan(0);
+  });
+
+  it('renders cart link', () => {
+    render(<App />);
+    expect(screen.getByLabelText('Cart')).toBeInTheDocument();
   });
 });
