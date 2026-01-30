@@ -1,8 +1,6 @@
 const request = require('supertest');
 const app = require('../src/app');
-const { PrismaClient } = require('@prisma/client');
-
-const prisma = new PrismaClient();
+const prisma = require('../src/lib/prisma');
 
 beforeAll(async () => {
   // Clean the database before tests
