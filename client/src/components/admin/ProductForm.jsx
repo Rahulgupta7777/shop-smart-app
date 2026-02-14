@@ -134,7 +134,24 @@ function ProductForm({ product, onSubmit, onCancel }) {
         </div>
 
         <div className="image-section">
-          <div className="image-section-label">Product Image</div>
+          <div className="image-section-head">
+            <div className="image-section-label">Product Image</div>
+            {form.imageUrl ? (
+              <span className="image-attached">
+                ✓ Attached
+                <button
+                  type="button"
+                  className="image-clear"
+                  onClick={() => setImageUrl('')}
+                  aria-label="Remove image"
+                >
+                  ×
+                </button>
+              </span>
+            ) : (
+              <span className="image-attached image-attached-empty">No image yet</span>
+            )}
+          </div>
           <div className="image-tabs">
             {TABS.map((t) => (
               <button
