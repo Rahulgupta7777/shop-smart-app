@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
-const productRoutes = require('./routes/products');
-const imageRoutes = require('./routes/images');
+
+const authRoutes = require('./routes/auth.routes');
+const productsRoutes = require('./routes/products.routes');
+const adminRoutes = require('./routes/admin');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -18,8 +20,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.use('/api/products', productRoutes);
-app.use('/api/images', imageRoutes);
+// Public API
+app.use('/api/auth', authRoutes);
+app.use('/api/products', productsRoutes);
+
+// Admin API (all routes below require admin JWT)
+app.use('/api/admin', adminRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const distPath = path.join(__dirname, '../../client/dist');
