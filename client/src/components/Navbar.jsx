@@ -29,7 +29,7 @@ function Navbar() {
   return (
     <>
       <div className="top-banner">
-        Free shipping on orders over $18 · Ships from India in 5-7 days
+        Free shipping on orders over ₹1,499 · Ships from India in 5-7 days
       </div>
       <nav className="navbar">
         <Link to="/" className="navbar-brand">
