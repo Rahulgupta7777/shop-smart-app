@@ -22,7 +22,7 @@ describe('ProductCard', () => {
   it('renders product details', () => {
     renderWithRouter(<ProductCard product={mockProduct} />);
     expect(screen.getByText('Test Product')).toBeInTheDocument();
-    expect(screen.getByText('$29.99')).toBeInTheDocument();
+    expect(screen.getByText(/₹30/)).toBeInTheDocument();
     expect(screen.getByText('Tees')).toBeInTheDocument();
     expect(screen.getByText('In Stock (10)')).toBeInTheDocument();
   });
