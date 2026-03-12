@@ -1,9 +1,20 @@
+import { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { useAuth } from '../contexts/AuthContext';
 
 function ProtectedRoute({ children, requireAdmin = false }) {
   const { isAuthenticated, isAdmin, loading } = useAuth();
   const location = useLocation();
+
+  useEffect(() => {
+    if (loading) return;
+    if (!isAuthenticated) {
+      toast.error('Please log in to continue');
+    } else if (requireAdmin && !isAdmin) {
+      toast.error('Admin access required');
+    }
+  }, [loading, isAuthenticated, isAdmin, requireAdmin]);
 
   if (loading) {
     return <div className="loading" style={{ minHeight: '60vh' }}>Checking session...</div>;
@@ -14,14 +25,7 @@ function ProtectedRoute({ children, requireAdmin = false }) {
   }
 
   if (requireAdmin && !isAdmin) {
-    return (
-      <div className="cart-empty">
-        <div className="cart-empty-kanji">禁</div>
-        <h1 className="page-title">Admin access required</h1>
-        <p className="page-subtitle">Your account isn't an admin. Ask the owner to elevate it.</p>
-        <a href="/" className="btn btn-primary">Back home</a>
-      </div>
-    );
+    return <Navigate to="/" replace />;
   }
 
   return children;
