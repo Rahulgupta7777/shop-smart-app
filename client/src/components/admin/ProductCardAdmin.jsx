@@ -1,3 +1,5 @@
+import { formatINR } from '../../lib/currency';
+
 function ProductCardAdmin({ product, onEdit, onDelete }) {
   return (
     <article className="product-card">
@@ -11,7 +13,7 @@ function ProductCardAdmin({ product, onEdit, onDelete }) {
         <h3 className="product-name">{product.name}</h3>
         {product.description && <p className="product-description">{product.description}</p>}
         <div className="product-meta">
-          <span className="product-price">${product.price.toFixed(2)}</span>
+          <span className="product-price">{formatINR(product.price)}</span>
           <span className={`product-stock ${product.inStock ? 'in-stock' : 'out-of-stock'}`}>
             {product.inStock ? `In Stock (${product.quantity})` : 'Out of Stock'}
           </span>
