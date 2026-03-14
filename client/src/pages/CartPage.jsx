@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
+import { formatINR, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_RATE } from '../lib/currency';
 
 function CartPage() {
   const { items, count, subtotal, setQty, remove, keyFor, clear } = useCart();
@@ -15,7 +16,7 @@ function CartPage() {
     );
   }
 
-  const shipping = subtotal >= 18 ? 0 : 2.99;
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_RATE;
   const total = subtotal + shipping;
 
   return (
@@ -40,7 +41,7 @@ function CartPage() {
                   <span className="product-category">{item.category}</span>
                   <h3 className="cart-item-name">{item.name}</h3>
                   {item.size && <span className="cart-item-size">Size {item.size}</span>}
-                  <div className="cart-item-price">${item.price.toFixed(2)}</div>
+                  <div className="cart-item-price">{formatINR(item.price)}</div>
                 </div>
                 <div className="cart-item-right">
                   <div className="qty-controls qty-controls-sm">
@@ -59,21 +60,21 @@ function CartPage() {
           <h2 className="summary-title">Order summary</h2>
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatINR(subtotal)}</span>
           </div>
           <div className="summary-row">
             <span>Shipping</span>
-            <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+            <span>{shipping === 0 ? 'Free' : formatINR(shipping)}</span>
           </div>
           {shipping > 0 && (
             <div className="summary-hint">
-              Add ${(18 - subtotal).toFixed(2)} more for free shipping.
+              Add {formatINR(FREE_SHIPPING_THRESHOLD - subtotal)} more for free shipping.
             </div>
           )}
           <div className="summary-divider" />
           <div className="summary-row summary-total">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatINR(total)}</span>
           </div>
           <Link to="/checkout" className="btn btn-primary summary-cta">Checkout →</Link>
           <button className="btn btn-ghost summary-clear" onClick={clear}>Clear cart</button>
