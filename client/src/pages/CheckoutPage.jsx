@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useCart } from '../contexts/CartContext';
+import { formatINR, FREE_SHIPPING_THRESHOLD, FLAT_SHIPPING_RATE } from '../lib/currency';
 
 const emptyForm = {
   name: '',
@@ -30,7 +31,7 @@ function CheckoutPage() {
     );
   }
 
-  const shipping = subtotal >= 18 ? 0 : 2.99;
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : FLAT_SHIPPING_RATE;
   const total = subtotal + shipping;
 
   const handleChange = (e) => {
@@ -124,7 +125,7 @@ function CheckoutPage() {
           </div>
 
           <button type="submit" className="btn btn-primary summary-cta" disabled={submitting}>
-            {submitting ? 'Placing order...' : `Place order · $${total.toFixed(2)}`}
+            {submitting ? 'Placing order...' : `Place order · ${formatINR(total)}`}
           </button>
         </form>
 
@@ -138,23 +139,23 @@ function CheckoutPage() {
                   {item.size && <span className="cart-item-size"> · {item.size}</span>}
                   <span className="checkout-item-qty"> × {item.qty}</span>
                 </span>
-                <span>${(item.price * item.qty).toFixed(2)}</span>
+                <span>{formatINR(item.price * item.qty)}</span>
               </li>
             ))}
           </ul>
           <div className="summary-divider" />
           <div className="summary-row">
             <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
+            <span>{formatINR(subtotal)}</span>
           </div>
           <div className="summary-row">
             <span>Shipping</span>
-            <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+            <span>{shipping === 0 ? 'Free' : formatINR(shipping)}</span>
           </div>
           <div className="summary-divider" />
           <div className="summary-row summary-total">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>{formatINR(total)}</span>
           </div>
         </aside>
       </div>
