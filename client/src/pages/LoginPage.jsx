@@ -42,14 +42,11 @@ function LoginPage({ initialMode = 'login' }) {
 
       toast.success(
         mode === 'signup'
-          ? user.role === 'ADMIN'
-            ? 'Signed up — you are the admin'
-            : 'Welcome to Moji'
+          ? 'Welcome to Moji'
           : `Welcome back${user.name ? ', ' + user.name : ''}`
       );
 
-      const goTo = user.role === 'ADMIN' && redirectTo === '/' ? '/admin' : redirectTo;
-      navigate(goTo, { replace: true });
+      navigate(redirectTo, { replace: true });
     } catch (err) {
       toast.error(err.message);
     } finally {
@@ -68,8 +65,8 @@ function LoginPage({ initialMode = 'login' }) {
         </h1>
         <p className="auth-subtitle">
           {isSignup
-            ? 'The first account created becomes the admin.'
-            : 'Log in to manage your catalog or keep shopping.'}
+            ? 'Create your Moji account to checkout faster and track orders.'
+            : 'Log in to keep shopping.'}
         </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
