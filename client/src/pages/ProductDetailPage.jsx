@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { fetchProduct } from '../api/products';
 import { useCart } from '../contexts/CartContext';
+import { formatINR } from '../lib/currency';
 
 const APPAREL_CATEGORIES = ['Tees', 'Hoodies', 'Bottoms'];
 const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -76,7 +77,7 @@ function ProductDetailPage() {
         <div className="detail-info">
           <span className="product-category">{product.category}</span>
           <h1 className="detail-name">{product.name}</h1>
-          <div className="detail-price">${product.price.toFixed(2)}</div>
+          <div className="detail-price">{formatINR(product.price)}</div>
 
           {product.description && (
             <p className="detail-description">{product.description}</p>
@@ -138,7 +139,7 @@ function ProductDetailPage() {
 
           <div className="detail-meta-list">
             <div>Small batch · printed in India</div>
-            <div>Free shipping over ₹1499 · 7-day easy returns</div>
+            <div>Free shipping over {formatINR(1499)} · 7-day easy returns</div>
             <div>Made to order — ships in 5–7 days</div>
           </div>
         </div>
