@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchProducts } from '../../api/products';
+import { formatINR } from '../../lib/currency';
 
 function AdminDashboard() {
   const [products, setProducts] = useState([]);
@@ -54,7 +55,7 @@ function AdminDashboard() {
         </div>
         <div className="stat-card">
           <span className="stat-label">Inventory value</span>
-          <span className="stat-value">${totalValue.toFixed(0)}</span>
+          <span className="stat-value">{formatINR(totalValue)}</span>
         </div>
       </div>
 
@@ -102,7 +103,7 @@ function AdminDashboard() {
                   )}
                   <div className="recent-info">
                     <div className="recent-name">{p.name}</div>
-                    <div className="recent-meta">{p.category} · ${p.price.toFixed(2)}</div>
+                    <div className="recent-meta">{p.category} · {formatINR(p.price)}</div>
                   </div>
                   <span className={`product-stock ${p.inStock ? 'in-stock' : 'out-of-stock'}`}>
                     {p.inStock ? 'Live' : 'Out'}
