@@ -1,17 +1,19 @@
 services:
   - type: web
     name: shopsmart-backend
-    env: node
+    runtime: node
     plan: free
-    buildCommand: cd server && npm install
+    buildCommand: cd server && npm install && npx prisma generate && npx prisma db push
     startCommand: cd server && npm start
     envVars:
       - key: PORT
         value: 10000
+      - key: DATABASE_URL
+        value: file:./prisma/dev.db
 
-  - type: static
+  - type: web
     name: shopsmart-frontend
-    env: static
+    runtime: static
     buildCommand: cd client && npm install && npm run build
     staticPublishPath: client/dist
     envVars:
