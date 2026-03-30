@@ -1,18 +1,29 @@
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import App from './App';
-import { describe, it, expect, vi } from 'vitest';
+
+beforeEach(() => {
+  global.fetch = vi.fn(() =>
+    Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve([]),
+    })
+  );
+});
 
 describe('App', () => {
-    it('renders ShopSmart title', () => {
-        // Mock fetch
-        global.fetch = vi.fn(() =>
-            Promise.resolve({
-                json: () => Promise.resolve({ status: 'ok', message: 'Test Msg', timestamp: 'now' })
-            })
-        );
+  it('renders ShopSmart title in navbar', () => {
+    render(<App />);
+    expect(screen.getByText('ShopSmart')).toBeInTheDocument();
+  });
 
-        render(<App />);
-        const linkElement = screen.getByText(/ShopSmart/i);
-        expect(linkElement).toBeInTheDocument();
-    });
+  it('renders the Add Product button', () => {
+    render(<App />);
+    expect(screen.getByText('+ Add Product')).toBeInTheDocument();
+  });
+
+  it('renders the search input', () => {
+    render(<App />);
+    expect(screen.getByPlaceholderText('Search products...')).toBeInTheDocument();
+  });
 });
