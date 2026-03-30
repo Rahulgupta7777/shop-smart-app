@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const productRoutes = require('./routes/products');
+const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
@@ -7,18 +9,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Health Check Route
+// Routes
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     message: 'ShopSmart Backend is running',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
-// Root Route (optional, just to show something)
+app.use('/api/products', productRoutes);
+
 app.get('/', (req, res) => {
   res.send('ShopSmart Backend Service');
 });
+
+// Error handling
+app.use(errorHandler);
 
 module.exports = app;
