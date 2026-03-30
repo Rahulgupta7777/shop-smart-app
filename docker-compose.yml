@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - DATABASE_URL=file:./prisma/dev.db
+    volumes:
+      - db-data:/app/server/prisma
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      target: frontend-build
+      args:
+        VITE_API_URL: http://localhost:5001
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    command: ["npx", "serve", "-s", "/app/client/dist", "-l", "3000"]
+    restart: unless-stopped
+
+volumes:
+  db-data:
