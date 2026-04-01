@@ -1,10 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "=============================="
-echo "  ShopSmart - Production Build"
-echo "=============================="
-
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Build backend (generate prisma client)
@@ -22,8 +18,3 @@ cd "$PROJECT_ROOT/client"
 npm ci
 npm run build
 echo "   Frontend built to client/dist/"
-
-echo ""
-echo "=============================="
-echo "  Build Complete!"
-echo "=============================="
