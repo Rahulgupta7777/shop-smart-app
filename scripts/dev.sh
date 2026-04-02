@@ -1,8 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "Starting ShopSmart in development mode..."
-
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # Start backend
