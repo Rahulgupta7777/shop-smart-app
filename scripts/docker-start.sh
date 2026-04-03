@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-echo "Starting ShopSmart..."
-
 # Initialize database
 cd /app/server
 npx prisma db push --accept-data-loss 2>/dev/null || true
