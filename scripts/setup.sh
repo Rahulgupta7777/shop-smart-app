@@ -1,9 +1,6 @@
 #!/bin/bash
 set -e
 
-echo "=============================="
-echo "  ShopSmart - Project Setup"
-echo "=============================="
 
 # Check Node.js
 if ! command -v node &> /dev/null; then
@@ -54,15 +51,3 @@ echo ""
 echo ">> Installing frontend dependencies..."
 cd ../client
 npm install
-
-echo ""
-echo "=============================="
-echo "  Setup Complete!"
-echo "=============================="
-echo ""
-echo "To start development:"
-echo "  Backend:  cd server && npm run dev"
-echo "  Frontend: cd client && npm run dev"
-echo ""
-echo "Or run both:  ./scripts/dev.sh"
-echo ""
