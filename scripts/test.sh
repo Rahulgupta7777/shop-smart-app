@@ -1,10 +1,5 @@
 #!/bin/bash
 set -e
-
-echo "=============================="
-echo "  ShopSmart - Running Tests"
-echo "=============================="
-
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EXIT_CODE=0
 
