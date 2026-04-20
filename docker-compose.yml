@@ -1,10 +1,18 @@
 version: "3.8"
 
+# Two usage modes:
+#   1. Build + run locally:  docker compose up --build
+#   2. Pull from Docker Hub: DOCKER_IMAGE=monarch1w/moji:latest docker compose up
+
 services:
   app:
-    build: .
+    image: ${DOCKER_IMAGE:-monarch1w/moji:latest}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: moji
     ports:
-      - "5001:5001"
+      - "${PORT:-5001}:5001"
     env_file:
       - server/.env
     environment:
