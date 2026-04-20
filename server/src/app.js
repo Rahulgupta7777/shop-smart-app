@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const cors = require('cors');
 
 const authRoutes = require('./routes/auth.routes');
@@ -26,9 +27,10 @@ app.use('/api/products', productsRoutes);
 
 // Admin API (all routes below require admin JWT)
 app.use('/api/admin', adminRoutes);
+const distPath = path.join(__dirname, '../../client/dist');
+const hasFrontend = fs.existsSync(path.join(distPath, 'index.html'));
 
-if (process.env.NODE_ENV === 'production') {
-  const distPath = path.join(__dirname, '../../client/dist');
+if (hasFrontend) {
   app.use(express.static(distPath));
   app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
